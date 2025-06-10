@@ -42,6 +42,15 @@ A simple and clean ToDo or Notes app built using Flutter. Users can add tasks, m
 - **State Management**: `setState` / `Provider` / `GetX` / `BLoC` *(select as per implementation)*
 
 ## 📸 Screenshots
+![image](https://github.com/user-attachments/assets/a69389f5-51f1-4747-8cbc-649a86ffa051)
+![image](https://github.com/user-attachments/assets/dfc7633a-1031-4c70-af44-403a39ff7c77)
+![image](https://github.com/user-attachments/assets/c2ca011d-ef5c-4f64-8e45-155f33dd64cf)
+![image](https://github.com/user-attachments/assets/7625e1b6-844b-4375-9471-deda6e2a7db0)
+
+
+
+
+
  
 
   
