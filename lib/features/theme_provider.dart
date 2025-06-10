@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-import 'package:to_do_app/setting_model.dart';
+import 'package:to_do_app/features/model/setting_model.dart';
 
 class ThemeProvider with ChangeNotifier {
   final Box<SettingModel> settingsBox = Hive.box<SettingModel>('setting');

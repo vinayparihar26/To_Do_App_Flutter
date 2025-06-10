@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 
 import 'package:to_do_app/features/model/task.dart';
 
-import 'package:to_do_app/features/home.dart';
+import 'package:to_do_app/features/screen/home.dart';
 import 'package:to_do_app/features/theme_provider.dart';
-import 'package:to_do_app/setting_model.dart';
+import 'package:to_do_app/features/model/setting_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

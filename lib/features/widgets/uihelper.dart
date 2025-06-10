@@ -185,7 +185,7 @@ class Uihelper {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.indigoAccent,
-                        minimumSize: Size(0.180*getWidth(context), 0.45*getResponsive(context)),
+                        minimumSize: Size(170, 45),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
