@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:to_do_app/features/model/task.dart';
+import 'package:to_do_app/features/responsive.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height:5),
+
             Row(
               children: [
                 PopupMenuButton(
@@ -46,8 +47,8 @@ class _HomePageState extends State<HomePage> {
                     Column(
                       children: [
                         SizedBox(
-                          width: 350,
-                          height: 60,
+                          width: 0.850*getWidth(context),
+                          height: 0.060*getHeight(context),
                           child: ValueListenableBuilder(
                             valueListenable: taskBox.listenable(),
                             builder: (
@@ -103,30 +104,7 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               );
                             },
-                            // child: ListView.builder(
-                            //   scrollDirection: Axis.horizontal,
-                            //   itemCount: taskBox.length,
-                            //   itemBuilder: (context, index) {
-                            //     Task task = taskBox.getAt(index)!;
 
-                            //     return Padding(
-                            //       padding: const EdgeInsets.all(8.0),
-                            //       child: ElevatedButton(
-                            //         style: ElevatedButton.styleFrom(
-                            //           shape: RoundedRectangleBorder(
-                            //             borderRadius: BorderRadius.circular(8),
-                            //           ),
-                            //         ),
-                            //         onPressed: () {
-                            //           setState(() {
-                            //             selectedTitle = task.title;
-                            //           });
-                            //         },
-                            //         child: Text(task.title),
-                            //       ),
-                            //     );
-                            //   },
-                            // ),
                           ),
                         ),
                       ],

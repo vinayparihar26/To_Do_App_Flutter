@@ -185,7 +185,7 @@ class Uihelper {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.indigoAccent,
-                        minimumSize: Size(170, 45),
+                        minimumSize: Size(0.180*getWidth(context), 0.45*getResponsive(context)),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
@@ -198,7 +198,7 @@ class Uihelper {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 18*getResponsive(context),
                         ),
                       ),
                     ),
@@ -209,7 +209,7 @@ class Uihelper {
                         backgroundColor: Colors.indigoAccent,
 
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8.0*getResponsive(context)),
                         ),
                       ),
                       onPressed: () async {
@@ -260,7 +260,7 @@ class Uihelper {
                         'Create',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 18*getResponsive(context),
                           color: Colors.white,
                         ),
                       ),

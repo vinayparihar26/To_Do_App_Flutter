@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_app/features/responsive.dart';
 
 import 'package:to_do_app/features/screen/add_task.dart';
 import 'package:to_do_app/features/screen/home_page.dart';
@@ -33,7 +34,6 @@ class _HomeState extends State<Home> {
         unselectedItemColor: Colors.black,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          //    BottomNavigationBarItem(icon: Icon(Icons.task), label: "Data Report"),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_circle_outline),
             label: "Add Task",
@@ -42,26 +42,42 @@ class _HomeState extends State<Home> {
       ),
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent,
-        title: Text(
-          'To-Do App',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: ClipOval(
+        title: Row(
+          children: [
+            ClipOval(
               child: Image.asset(
                 'assets/images/profile.png',
-                width: 35,
-                height: 35,
+                width: 0.12*getWidth(context),
+                height: 0.06*getHeight(context),
+                fit: BoxFit.cover,
               ),
             ),
-          ),
-          Switch(
-            value: themeProvider.isDarkMode,
-            onChanged: (bool value) {
-              themeProvider.toogleTheme();
-            },
+            Padding(
+              padding: const EdgeInsets.only(left: 5.0),
+              child: Text(
+                'To-Do App',
+                style: TextStyle(fontSize: 20*getResponsive(context), fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+
+          Row(
+            children: [
+              Icon(themeProvider.isDarkMode? Icons.dark_mode: Icons.light_mode, color: Colors.white,size: 20*getResponsive(context),),
+              SizedBox(width: 0.04*getWidth(context)),
+              Transform.scale(
+                scale: getResponsive(context),
+child:  Switch(
+  value: themeProvider.isDarkMode,
+  onChanged: (bool value) {
+    themeProvider.toogleTheme();
+  },
+),
+              )
+
+            ],
           ),
         ],
       ),

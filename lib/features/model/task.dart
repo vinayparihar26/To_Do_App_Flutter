@@ -1,6 +1,4 @@
 
-
-
 import 'package:hive/hive.dart';
 
 part 'task.g.dart';
