@@ -47,8 +47,8 @@ class _HomeState extends State<Home> {
             ClipOval(
               child: Image.asset(
                 'assets/images/profile.png',
-                width: 0.12*getWidth(context),
-                height: 0.06*getHeight(context),
+                width: 35,
+                height: 35,
                 fit: BoxFit.cover,
               ),
             ),
