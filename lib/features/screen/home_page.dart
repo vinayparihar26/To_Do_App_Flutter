@@ -3,7 +3,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:to_do_app/features/model/task.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -25,7 +24,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height:5),
             Row(
               children: [
                 PopupMenuButton(
@@ -49,28 +48,85 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           width: 350,
                           height: 60,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: taskBox.length,
-                            itemBuilder: (context, index) {
-                              Task task = taskBox.getAt(index)!;
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                          child: ValueListenableBuilder(
+                            valueListenable: taskBox.listenable(),
+                            builder: (
+                              BuildContext context,
+                              Box<Task> box,
+                              Widget? child,
+                            ) {
+                              final titles =
+                                  box.values
+                                      .map((e) => e.title)
+                                      .toSet()
+                                      .toList();
+                              return ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            selectedTitle == null
+                                                ? const Color.fromARGB(255, 91, 162, 209)
+                                                : null,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedTitle = null;
+                                        });
+                                      },
+                                      child: const Text('All'),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedTitle = task.title;
-                                    });
-                                  },
-                                  child: Text(task.title),
-                                ),
+
+                                  ...titles.map(
+                                    (title) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              selectedTitle == title
+                                                  ?  const Color.fromARGB(255, 91, 162, 209)
+                                                  : null,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            selectedTitle = title;
+                                          });
+                                        },
+                                        child: Text(title),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               );
                             },
+                            // child: ListView.builder(
+                            //   scrollDirection: Axis.horizontal,
+                            //   itemCount: taskBox.length,
+                            //   itemBuilder: (context, index) {
+                            //     Task task = taskBox.getAt(index)!;
+
+                            //     return Padding(
+                            //       padding: const EdgeInsets.all(8.0),
+                            //       child: ElevatedButton(
+                            //         style: ElevatedButton.styleFrom(
+                            //           shape: RoundedRectangleBorder(
+                            //             borderRadius: BorderRadius.circular(8),
+                            //           ),
+                            //         ),
+                            //         onPressed: () {
+                            //           setState(() {
+                            //             selectedTitle = task.title;
+                            //           });
+                            //         },
+                            //         child: Text(task.title),
+                            //       ),
+                            //     );
+                            //   },
+                            // ),
                           ),
                         ),
                       ],
@@ -90,9 +146,9 @@ class _HomePageState extends State<HomePage> {
                           : box.values
                               .where(
                                 (task) =>
-                                    selectedTitle == null ||
+                                    // selectedTitle == null ||
                                     task.title.trim().toLowerCase() ==
-                                        selectedTitle!.trim().toLowerCase(),
+                                    selectedTitle!.trim().toLowerCase(),
                               )
                               .toList();
 
@@ -110,7 +166,12 @@ class _HomePageState extends State<HomePage> {
                   final tasksToShow = filteredTasks;
 
                   if (box.isEmpty) {
-                    return Center(child: Text('No tasks added.'));
+                    return Center(
+                      child: Text(
+                        'No tasks added!',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    );
                   }
                   return ListView.builder(
                     shrinkWrap: true,
@@ -135,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                             (direction) => setState(() {
                               final taskKey = task.key;
                               taskBox.delete(taskKey);
-                             
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('${task.title} deleted'),
@@ -143,6 +204,7 @@ class _HomePageState extends State<HomePage> {
                               );
                             }),
                         child: Card(
+                          elevation: 2,
                           child: ListTile(
                             onLongPress: () {
                               // Navigator.push(
@@ -176,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                                   onChanged: (bool? value) {
                                     setState(() {
                                       task.status = value ?? false;
-                                      task.save(); 
+                                      task.save();
                                     });
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

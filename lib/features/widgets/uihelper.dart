@@ -4,8 +4,37 @@ import 'package:to_do_app/features/model/task.dart';
 
 import 'package:to_do_app/features/responsive.dart';
 
-
 class Uihelper {
+  static SizedBox verticalSpace(BuildContext context, [double factor = 0.01]) {
+    return SizedBox(height: factor * getHeight(context));
+  }
+
+  static Widget customTextFormField({
+    required TextEditingController controller,
+    String? hintText,
+    String? labelText,
+    bool readOnly = false,
+    IconData? suffixIcon,
+    String? Function(String?)? validator,
+    VoidCallback? onTap,
+  }) {
+    return TextFormField(
+      controller: controller,
+      readOnly: readOnly,
+      onTap: onTap,
+      validator: validator,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: hintText,
+        border: const OutlineInputBorder(),
+        suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
+      ),
+    );
+  }
+
+  static Widget formLabel(String text) {
+    return Text(text, style: const TextStyle(fontSize: 18));
+  }
 
 
   static Widget addTask(BuildContext context, {Task? task, int? index}) {
@@ -30,6 +59,17 @@ class Uihelper {
       text: task?.reminder?.toString() ?? '',
     );
     DateTime? selectedDateTime = task?.reminder;
+
+    void clearForm() {
+      titleController.clear();
+      categoryController.clear();
+      peopleController.clear();
+      priorityController.clear();
+      descriptionController.clear();
+      reminderController.clear();
+      selectedDateTime = null;
+      _formKey.currentState?.reset();
+    }
 
     Future<void> pickDateTime() async {
       DateTime? date = await showDatePicker(
@@ -59,9 +99,8 @@ class Uihelper {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset:  true,
+      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
-        
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Form(
@@ -69,8 +108,9 @@ class Uihelper {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Title name', style: TextStyle(fontSize: 20)),
-                SizedBox(height: 0.01 * getHeight(context)),
+                formLabel('Title name'),
+
+                verticalSpace(context, 0.01),
                 TextFormField(
                   controller: titleController,
                   validator: (value) => value!.isEmpty ? 'Enter a title' : null,
@@ -79,23 +119,22 @@ class Uihelper {
                     hintText: 'dr.appointment',
                   ),
                 ),
-                SizedBox(height: 0.01 * getHeight(context)),
-                Text('Reminder', style: TextStyle(fontSize: 20)),
-                TextFormField(
+
+                verticalSpace(context, 0.01),
+                formLabel('Reminder'),
+
+                customTextFormField(
                   controller: reminderController,
+                  hintText: 'select data and time',
                   readOnly: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'select data and time',
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
+                  suffixIcon: Icons.calendar_today,
                   onTap: pickDateTime,
                 ),
-      
-                SizedBox(height: 0.01 * getHeight(context)),
-      
-                Text('Category', style: TextStyle(fontSize: 20)),
-                SizedBox(height: 0.01 * getHeight(context)),
+
+                verticalSpace(context, 0.01),
+                formLabel('Category'),
+
+                verticalSpace(context, 0.01),
                 TextFormField(
                   controller: categoryController,
                   decoration: InputDecoration(
@@ -103,21 +142,23 @@ class Uihelper {
                     hintText: 'Medical ',
                   ),
                 ),
-                SizedBox(height: 0.01 * getHeight(context)),
-                Text('Add peoples', style: TextStyle(fontSize: 20)),
-                SizedBox(height: 0.01 * getHeight(context)),
+                verticalSpace(context, 0.01),
+                formLabel('Add peoples'),
+
+                verticalSpace(context, 0.01),
                 TextFormField(
                   controller: peopleController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Add peoples@gmail.com',
-      
+
                     suffixIcon: Icon(Icons.share),
                   ),
                 ),
-                SizedBox(height: 0.01 * getHeight(context)),
-                Text('Priority', style: TextStyle(fontSize: 20)),
-                SizedBox(height: 0.01 * getHeight(context)),
+                verticalSpace(context, 0.01),
+                formLabel('Priority'),
+
+                verticalSpace(context, 0.01),
                 TextFormField(
                   controller: priorityController,
                   decoration: InputDecoration(
@@ -125,9 +166,10 @@ class Uihelper {
                     hintText: 'low',
                   ),
                 ),
-                SizedBox(height: 0.01 * getHeight(context)),
-                Text('Description', style: TextStyle(fontSize: 20)),
-                SizedBox(height: 0.01 * getHeight(context)),
+                verticalSpace(context, 0.01),
+                formLabel('Description'),
+
+                verticalSpace(context, 0.01),
                 TextFormField(
                   controller: descriptionController,
                   decoration: InputDecoration(
@@ -135,7 +177,7 @@ class Uihelper {
                     hintText: '2715 Ash Dr.San Jose, South Dakota 83475',
                   ),
                 ),
-      
+
                 SizedBox(height: 0.03 * getHeight(context)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -149,30 +191,23 @@ class Uihelper {
                         ),
                       ),
                       onPressed: () {
-                        titleController.clear();
-                        categoryController.clear();
-                        peopleController.clear();
-                        priorityController.clear();
-                        descriptionController.clear();
-                        reminderController.clear();
-                        selectedDateTime = null;
-                        _formKey.currentState?.reset();
+                        clearForm();
                       },
                       child: Text(
                         'Clear All',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                          fontSize: 18
+                          fontSize: 18,
                         ),
                       ),
                     ),
-      
+
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(170, 45),
                         backgroundColor: Colors.indigoAccent,
-      
+
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
@@ -190,7 +225,7 @@ class Uihelper {
                               reminder: selectedDateTime,
                               status: false,
                             );
-                              await box.putAt(index, task);
+                            await box.putAt(index, task);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text("Task updated successfully"),
@@ -217,16 +252,7 @@ class Uihelper {
                                 duration: Duration(seconds: 2),
                               ),
                             );
-                        
-      
-                            titleController.clear();
-                            categoryController.clear();
-                            peopleController.clear();
-                            priorityController.clear();
-                            descriptionController.clear();
-                            reminderController.clear();
-                            selectedDateTime = null;
-                            _formKey.currentState?.reset();
+                            clearForm();
                           }
                         }
                       },
