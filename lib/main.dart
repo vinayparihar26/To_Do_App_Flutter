@@ -18,10 +18,11 @@ void main() async {
   await Hive.openBox<Task>('tasks');
   await Hive.openBox<SettingModel>('setting');
 
+  final themeProvider=ThemeProvider();
+  await themeProvider.loadTheme();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
-
+    ChangeNotifierProvider.value(
+      value: themeProvider,
       child: const MyApp(),
     ),
   );
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+     darkTheme: ThemeData.dark(),
       themeMode: themeProvider.currentTheme,
       home: Home(),
       debugShowCheckedModeBanner: false,

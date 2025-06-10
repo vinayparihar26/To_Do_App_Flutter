@@ -7,20 +7,19 @@ class ThemeProvider with ChangeNotifier {
   final Box<SettingModel> settingsBox = Hive.box<SettingModel>('setting');
   bool isDarkMode = false;
 
-  ThemeProvider() {
-    _loadTheme(); // Load theme from Hive on init
+  Future<void> loadTheme() async{
+    final savedSetting = settingsBox.get('theme');
+    isDarkMode = savedSetting?.isDarkMode ?? false;
+    notifyListeners();
   }
+
   ThemeMode get currentTheme => isDarkMode ? ThemeMode.dark : ThemeMode.light;
 
   void toogleTheme() {
     isDarkMode = !isDarkMode;
-    
-    settingsBox.put('theme', SettingModel(isDarkMode: !isDarkMode));
+    settingsBox.put('theme', SettingModel(isDarkMode: isDarkMode));
     notifyListeners();
   }
 
-  void _loadTheme() {
-    final savedSetting = settingsBox.get('theme');
-    isDarkMode = savedSetting?.isDarkMode ?? false;
-  }
+
 }
